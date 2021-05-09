@@ -12,21 +12,17 @@ from linkedinBot import LinkedInBot
 # ======================================================
 # 
 # email and password
-auto_email = ""
-auto_password = ""
+auto_email = "xyz"
+auto_password = "xyz"
 # 
 #keywords to search for specific topics, skills, fields, jobs, etc ... 
 # provide keywords in (string) separated by commas.
 keywords = [
-    "php",
-    "python",
-    "software",
-    "django",
-    "machine learning",
-    "data analysis",
-    "Google",
-    "web development", 
-    "programming"
+    "CEO",
+    "CTO",
+    "Hr",
+    "Hiring Recruitement",
+    "Founder"
 ]
 
 # Time to run
@@ -52,9 +48,6 @@ def login(email, password, browser):
         passElement = browser.find_element_by_id("password")
         passElement.send_keys(password)
     passElement.submit()
-
-
-
 
 
 
@@ -94,7 +87,7 @@ def main():
         browser = webdriver.Chrome("{}/chromedriver".format(os.getcwd()))
     except:
         browser = webdriver.Chrome(CHROME_DRIVER_PATH)
-    browser.get("https://linkedin.com/uas/login")
+    browser.get("https://www.linkedin.com/login")
     login(email, password, browser)
     os.system('clear')
     print("[+] Success! Logged In, Bot Starting!")

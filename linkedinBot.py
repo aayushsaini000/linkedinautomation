@@ -10,7 +10,6 @@ class LinkedInBot:
 
     base = "https://www.linkedin.com"
 
-
     def __init__(self, browser, param_keyword=None, timeout=None, keywords=None):
         self.browser = browser
         self.keywords = []
@@ -40,7 +39,6 @@ class LinkedInBot:
     def get_people_links(self, page):
         links = []
         urls =  page.find_all("a")
-
         for link in urls:
             url = link.get('href')
             if url:
@@ -49,6 +47,7 @@ class LinkedInBot:
                 if '/in' in url and not "www.linkedin.com" in url:
                     if url not in links:
                         links.append(url)
+        print(links)
         return links
 
 
@@ -80,13 +79,15 @@ class LinkedInBot:
         if len(visited) == 0 and len(pList) == 0 and count == 0:
             if self.param_keyword != None or len(self.keywords) > 0:
                 time.sleep(random.uniform(3.5, 6.9))
-                search_link =  "{}/search/results/all/?keywords={}&origin=GLOBAL_SEARCH_HEADER".format(self.base, str(self.param_keyword).replace(" ", "%20"))
+                search_link =  "{}/search/results/people/?keywords={}&origin=SWITCH_SEARCH_VERTICAL".format(self.base, str(self.param_keyword).replace(" ", "%20"))
                 print("Searching for {} connections".format(self.param_keyword))
-                self.browser.get(search_link)
+                #self.browser.get(search_link)
+                self.browser.get("https://www.linkedin.com/mynetwork/")
 
         while True:
-            time.sleep(random.uniform(3.5, 6.9))
+            time.sleep(random.uniform(9,15))
             page = BeautifulSoup(self.browser.page_source, "html.parser")
+            time.sleep(3)
             people = self.get_people_links(page)
 
             if people:
@@ -100,6 +101,7 @@ class LinkedInBot:
                 profile = "{}{}".format(self.base, person)
                 self.browser.get(profile)
                 count += 1
+            """
             else:
                 jobs = self.get_job_links(page)
                 if jobs:
@@ -113,7 +115,9 @@ class LinkedInBot:
                     print("I'm Lost Exiting")
                     break
             #Output (Make option for this)			
+            """
             print( "[+] "+str(self.browser.title)+" Visited! \n("+str(count)+"/"+str(len(pList))+") Visited/Queue)")
+            
             if time.time() > start + PERIOD_OF_TIME : break
 
 
